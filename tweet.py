@@ -28,16 +28,16 @@ f = open("trump.txt","w+")
 
 i = 0
 limit = 10
-for status in tweepy.Cursor(api.user_timeline, screen_name='@realDonaldTrump').items():
+for status in tweepy.Cursor(api.user_timeline, screen_name='@realDonaldTrump', tweet_mode='extended').items():
     i += 1
     print "fetching tweet",i,"of",limit
 
     # handle truncated tweets (longer than 140 chars)
     if status._json['truncated']:
-        print "Truncated tweet"
+        print "ERROR - Truncated tweet"
 
     # fetch tweet (make sure to encode as UTF-8 to avoid encode error when writing)
-    f.write(status._json['text'].encode('utf-8') + "\n")
+    f.write(status._json['full_text'].encode('utf-8') + "\n")
     
     # stop if reached limit
     if i >= limit:
