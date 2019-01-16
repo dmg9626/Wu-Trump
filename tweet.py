@@ -28,19 +28,21 @@ f = open("trump.txt","w+")
 
 i = 0
 limit = 10
+
+# fetch tweets
 for status in tweepy.Cursor(api.user_timeline, screen_name='@realDonaldTrump', tweet_mode='extended').items():
-    i += 1
-    print "fetching tweet",i,"of",limit
+    
+    # skip retweets
+    if hasattr(status, 'retweeted_status'):
+        continue
 
-    # handle truncated tweets (longer than 140 chars)
-    if status._json['truncated']:
-        print "ERROR - Truncated tweet"
-
-    # fetch tweet (make sure to encode as UTF-8 to avoid encode error when writing)
+    # write tweet text to file (make sure to encode as UTF-8 to avoid encode error when writing)
     f.write(status._json['full_text'].encode('utf-8') + "\n")
     
     # stop if reached limit
+    i += 1
     if i >= limit:
         break
 
+print "wrote",i,"tweets to","trump.txt"
 f.close()
