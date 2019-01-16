@@ -16,13 +16,12 @@ def ReadFolder(fname):
 
 
 wutang = ReadFolder("WuTang")
+trump = ReadFolder("Trump")
 
-path = "WuTang/CREAM"
-f = open(path)
+text = wutang + trump
 
 # Build the model
-text_model = markovify.NewlineText(wutang)
-
+text_model = markovify.NewlineText(text)
 
 # Print three randomly-generated sentences of no more than 140 characters
 #for i in range(10):
