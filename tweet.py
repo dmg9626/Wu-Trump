@@ -3,6 +3,7 @@
 import os
 import sys
 import tweepy
+import HTMLParser
 
 # read API keys from files
 f_ckey = open("API/consumer_key")
@@ -28,17 +29,21 @@ filename="Trump/trump.txt"
 f = open(filename,"w+")
 
 i = 0
-limit = 500
+limit = 1000
 
 # fetch tweets
-for status in tweepy.Cursor(api.user_timeline, screen_name='@realDonaldTrump', tweet_mode='extended').items():
+for status in tweepy.Cursor(api.user_timeline, count=limit, screen_name='@realDonaldTrump', tweet_mode='extended').items():
     
     # skip retweets
     if hasattr(status, 'retweeted_status'):
         continue
+    
+    # get full text and parse symbols correctly (ex. &amp -> &)
+    full_text = status._json['full_text']
+    tweet = HTMLParser.HTMLParser().unescape(full_text)
 
     # write tweet text to file (make sure to encode as UTF-8 to avoid encode error when writing)
-    f.write(status._json['full_text'].encode('utf-8') + "\n")
+    f.write(tweet.encode('utf-8') + "\n")
     
     # stop if reached limit
     i += 1
