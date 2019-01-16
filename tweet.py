@@ -23,11 +23,12 @@ auth.set_access_token(access_token_key, access_token_secret)
 
 # Creation of the actual interface, using authentication
 api = tweepy.API(auth)
+filename="Trump/trump.txt"
 
-f = open("trump.txt","w+")
+f = open(filename,"w+")
 
 i = 0
-limit = 10
+limit = 500
 
 # fetch tweets
 for status in tweepy.Cursor(api.user_timeline, screen_name='@realDonaldTrump', tweet_mode='extended').items():
@@ -44,5 +45,5 @@ for status in tweepy.Cursor(api.user_timeline, screen_name='@realDonaldTrump', t
     if i >= limit:
         break
 
-print "wrote",i,"tweets to","trump.txt"
+print "wrote",i,"tweets to",filename
 f.close()
