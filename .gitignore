@@ -102,3 +102,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# ============== MY CHANGES ============== #
+# ignore trump tweets text file - too large to bother committing, can be fetched anytime
+Trump/
